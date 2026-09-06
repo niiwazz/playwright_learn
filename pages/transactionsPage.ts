@@ -15,7 +15,7 @@ export class TransactionsPage {
 
   // Form Controls (Scoped to Dialog)
   readonly typeDropdown: Locator;
-  readonly dateInput: Locator;
+  readonly datePickerTrigger: Locator; // 👈 Updated locator type name
   readonly amountInput: Locator;
   readonly categoryDropdown: Locator;
   readonly accountDropdown: Locator;
@@ -44,7 +44,12 @@ export class TransactionsPage {
 
     // Form Controls
     this.typeDropdown = this.formDialog.getByRole('combobox', { name: 'Type' });
-    this.dateInput = this.formDialog.getByRole('textbox', { name: 'Date' });
+    
+    // 👈 Targets the date trigger button inside the dialog
+    this.datePickerTrigger = this.formDialog.locator('button').filter({
+      hasText: /jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec|\d{4}/i,
+    });
+
     this.amountInput = this.formDialog.getByRole('spinbutton', { name: 'Amount' });
     this.categoryDropdown = this.formDialog.getByRole('combobox', { name: 'Category' });
     this.accountDropdown = this.formDialog.getByRole('combobox', { name: 'From Account' });
@@ -56,12 +61,8 @@ export class TransactionsPage {
     this.saveTransactionBtn = this.formDialog.getByRole('button', { name: 'Save Transaction' });
     this.saveChangesBtn = this.formDialog.getByRole('button', { name: 'Save Changes' });
 
-    // The create dialog renders "Save Transaction", the edit dialog "Save Changes".
-    // Only one is ever mounted, so an or-locator waits for whichever appears.
     this.submitButton = this.saveChangesBtn.or(this.saveTransactionBtn);
 
-    // Must stay scoped to the dialog: every table row has a "Delete transaction"
-    // button, so a page-wide match would resolve to the first row's icon.
     this.confirmDeleteBtn = this.formDialog.getByRole('button', {
       name: /^(Delete|Confirm|Yes)\b/i,
     });
@@ -85,7 +86,7 @@ export class TransactionsPage {
 
   async createTransaction(data: {
     type?: string;
-    date: string;
+    date?: string;
     amount: string;
     category?: string;
     fromAccount?: string;
@@ -127,8 +128,6 @@ export class TransactionsPage {
     const targetRow = this.getTableRowByText(targetIdentifier);
     await this.getDeleteButtonForRow(targetRow).click();
 
-    // isVisible() is an instantaneous snapshot and ignores its timeout option,
-    // so wait explicitly for a confirmation step that may not exist.
     const needsConfirmation = await this.confirmDeleteBtn
       .waitFor({ state: 'visible', timeout: 2000 })
       .then(() => true)
@@ -154,9 +153,18 @@ export class TransactionsPage {
       await this.typeDropdown.click();
       await this.page.getByRole('option', { name: data.type }).click();
     }
+
+    // 👈 Handles Date Selection via Calendar Popover
     if (data.date) {
-      await this.dateInput.fill(data.date);
+      await this.datePickerTrigger.click();
+      
+      // Extract day number (e.g., extracts "5" from "2026-09-05" or "5")
+      const day = parseInt(data.date.split('-').pop() || data.date, 10).toString();
+      
+      // Select day button in calendar grid
+      await this.page.getByRole('button', { name: day, exact: true }).first().click();
     }
+
     if (data.amount) {
       await this.amountInput.fill(data.amount);
     }

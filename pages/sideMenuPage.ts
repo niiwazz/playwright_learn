@@ -79,6 +79,10 @@ async gotoTransactions() {
     await this.investmentsLink.click()
   }
 
+  async gotoGoals(){
+    await this.goalsLink.click()
+  }
+
 
 
 }

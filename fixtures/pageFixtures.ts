@@ -4,6 +4,9 @@ import { TransactionsPage } from '../pages/transactionsPage';
 import { SideMenuPage } from '../pages/sideMenuPage';
 import { SettingsPage } from '../pages/settingsPage';
 import { InvestmentsPage } from '../pages/investmentsPage';
+import { GoalsPage } from '../pages/goalsPage';
+
+
 
 // Define the types of custom fixtures we are adding
 type MyFixtures = {
@@ -12,6 +15,7 @@ type MyFixtures = {
   sideMenuPage: SideMenuPage;
   settingsPage: SettingsPage;
   investmentsPage : InvestmentsPage;
+  goalsPage : GoalsPage;
 
 };
 
@@ -41,6 +45,10 @@ export const test = base.extend<MyFixtures>({
     const investmentsPage = new InvestmentsPage(page);
     await use(investmentsPage);
   },
+   goalsPage: async ({ page }, use) => {
+    const goalsPage = new GoalsPage(page);
+    await use(goalsPage);
+   }
 });
 
 export { expect } from '@playwright/test';
