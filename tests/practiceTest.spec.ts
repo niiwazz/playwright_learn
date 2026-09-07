@@ -3,98 +3,110 @@ import * as path from 'path'; // Added missing path import
 
 test('string', async ({ page, context }) => {
 
-    // Task 1 
+  // Task 0 - Mouse hover
+  await page.goto('https://www.amazon.in/')
+
+  await page.getByRole('button', { name: 'Continue shopping', exact : true }).click()
+   await page.getByRole('link', { name: 'Hello, sign in' }).hover()
+   await page.getByRole('link', { name: 'Sign in', exact : true }).click()
+    await expect(page.getByText('Sign in or create account')).toBeVisible()
+
+    //
+
+
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+//     // Task 1 - Basic Click n Fill
+//     await page.goto('https://web-six-beta-34.vercel.app/login')
+//     await page.getByRole('textbox', { name: 'email' }).fill('test@gmail.com')
+//     await page.getByRole('textbox', { name: 'password' }).fill('passpass')
+//     await page.getByRole('button', { name: 'Log in' }).click()
+//     await expect(page.getByText('test@gmail.com')).toBeVisible()
+
+//    // Task 2 - Basic Drop down & Fill
+//     await page.getByRole('link', { name: 'Transactions', exact: true }).click();
+//     const addTransactionDialog = page.getByRole('dialog');
+//     await page.getByRole('button', { name: 'Add Transaction' }).click();
+//     await expect(addTransactionDialog).toBeVisible();
+//     await addTransactionDialog.getByRole('combobox', { name: 'Type' }).click()
+//    await page.getByRole('option', { name: 'Income', exact: true }).click();
+//     await addTransactionDialog.getByRole('button', { name: /Sep|Date/i }).click();
+//     await page.getByRole('button', { name: '15', exact: true }).click();
+//     await addTransactionDialog.getByRole('spinbutton', { name: 'Amount' }).fill('2500');
+//     await addTransactionDialog.getByRole('combobox', { name: 'Category' }).click();
+//     await page.getByRole('option', { name: 'Dividend', exact: true }).click();
+//     await addTransactionDialog.getByRole('combobox', { name: 'From Account' }).click();
+//     await page.getByRole('option', { name: 'Zerodha (Trading)', exact: true }).click();
+//     await addTransactionDialog.getByRole('textbox', { name: 'Sub Category' }).fill('TEST SUB CATEGORY');
+//     await addTransactionDialog.getByPlaceholder('Optional notes').fill('Automated transaction test');
+//     await addTransactionDialog.getByRole('button', { name: 'Save Transaction' }).click();
+//     await expect(addTransactionDialog).toBeHidden();
+
+
+//     // Task 3 - Auto Waits to be implemented 
+//     await page.getByRole('button', { name: 'Setting' }).click()
+//     await page.getByRole('link', { name: 'Profile' }).click()
+//     await page.getByRole('button', { name: 'Save Profile' }).click()
+//     await expect(page.getByText('Emergency Fund')).toBeVisible()
+
+//     // Task 4 - for New tab
+//     await page.getByRole('button', { name: "help" }).click()
+//     await page.getByRole('link', { name: "donate" }).click()
+//     const pagePromise = context.waitForEvent('page')
+//     await page.getByRole('link', { name: "Buy me a coffee" , exact : true }).click()
+//     const newTab = await pagePromise
+//     await expect(newTab).toHaveURL('https://buymeacoffee.com/sibi24sibi5')
+//     await page.bringToFront()
+//     await page.waitForTimeout(2000)
+
+
+//    // Task 5 - JS Alert / Easter Egg
+// const dataAndPrivacyButton = page.getByRole('link', { name: 'Data & Privacy' });
+
+// if (await dataAndPrivacyButton.isVisible()) {
+//   await dataAndPrivacyButton.click();
+// } else {
+//   await page.getByRole('button', { name: 'Settings' }).click();
+//   await page.getByRole('link', { name: 'Data & Privacy' }).click();
+// }
+
+// const deleteAccountCard = page.locator('div').filter({
+//   has: page.getByRole('heading', { name: 'Delete account' }),
+// });
+
+// await deleteAccountCard.getByText('in', { exact: true }).click();
+// await deleteAccountCard.getByText('it', { exact: true }).click();
+// await deleteAccountCard.getByText('in', { exact: true }).click();
+// await deleteAccountCard.getByText('it', { exact: true }).click();
     
-    await page.goto('');
-    await page.getByRole('link', { name: 'Test Login Page' }).click();
-    await page.getByRole('textbox', { name: "username" }).fill('student');
-    await page.getByRole('textbox', { name: "password" }).fill('Password123');
-    await page.getByRole('button', { name: "Submit" }).click();
-    await expect(page.getByText('Congratulations student. You successfully logged in!')).toBeVisible();
-
-    await page.goto('https://practicetestautomation.com/practice-test-exceptions/');
-    await page.getByRole('button', { name: "Add" }).click();
-    const row2Text = page.getByText('Row 2 was added');
-    await expect(row2Text).toBeVisible();
-    await page.getByRole('textbox').nth(1).fill('Parotta');
-    await page.getByRole('button', { name: 'Save' }).click();
-    await expect(page.getByText('Row 2 was saved')).toBeVisible();
-
-    // Task 2
-    await page.goto('https://practicetestautomation.com/courses/');
-    const pagePromise = context.waitForEvent('page');
-    await page.getByRole('link', { name: 'Enroll in this course on Udemy' }).nth(7).click();
-    const newTab = await pagePromise;
-    await expect(newTab).toHaveURL('https://www.udemy.com/course/advanced-selenium-grid-and-cloud/?couponCode=AUGUST2026');
-    const regexLocator = newTab.getByText(/Become SDET or even Test Automation Architect/i);
-    await expect(regexLocator).toBeVisible();
-
-    // Task 3
-    await page.goto('https://testautomationpractice.blogspot.com/');
-    await page.getByRole('link', { name: 'PlaywrightPractice' }).click();
-    page.once('dialog', async (dialog) => {
-        console.log('Alert Type :', dialog.type());
-        console.log('Alert Message :', dialog.message());
-        expect(dialog.message()).toContain('I am an alert box!');
-        await dialog.accept();
-    });
-    await page.getByRole('button', { name: 'Simple Alert' }).click();
-
-    page.once('dialog', async (dialog) => {
-        console.log('Alert Type :', dialog.type());
-        console.log('Alert Message :', dialog.message());
-        expect(dialog.message()).toContain('Press a button!');
-        await dialog.accept();
-    });
-    await page.getByRole('button', { name: 'Confirmation Alert' }).click();
-
-    await page.getByRole('textbox', { name: 'username' }).fill('TEST PASS');
-
-    // Task 4
-    await page.goto('https://demoqa.com/webtables');
-    const targetRow = page.getByRole('row').filter({ hasText: 'kiera' });
-    await targetRow.locator('span[title="Edit"]').click(); 
-    
-    // Task 5: Frames
-    await page.goto('https://demoqa.com/webtables');
-    await page.getByText('Alerts, Frame & Windows').click();
-    await page.getByRole('link', { name: 'Frames', exact: true }).click();
-    const frame = page.frameLocator('#frame1');
-    const frameHeading = frame.getByRole('heading', { name: 'This is a sample page' });
-    await expect(frameHeading).toBeVisible();
-
-    // Task 6: File Upload
-    await page.goto('https://demoqa.com/upload-download');
-
-    // Dynamically resolve absolute path to Downloads folder
-    // Note: Make sure 'your_image.png' exists in C:\Users\prajan\Downloads\
-    const fileName = 'your_image.png'; 
-    const filePath = path.join(process.env.USERPROFILE || '', 'Downloads', fileName);
-
-    // Upload file & assert confirmation text
-    await page.locator('#uploadFile').setInputFiles(filePath);
-    await expect(page.locator('#uploadedFilePath')).toContainText(fileName); 
+//     page.once('dialog', async (dialog) => {
+//         console.log('Alert Type :', dialog.type());
+//         console.log('Alert Message :', dialog.message());
+//         expect(dialog.message()).toContain('This is a simple alert.');
+//         await dialog.accept();
+//     });
+//     await page.getByRole('button', { name: 'Simple Alert' }).click();
 
 
-// Task 7 
-    await page.goto('https://web-six-beta-34.vercel.app/login')
-    await page.getByRole('textbox', {name : 'email'}).fill('test@gmail.com')
-    await page.getByRole('textbox', {name : 'password'}).fill('passpass')
-    await page.getByRole('button', {name : 'Log in'}).click()
-   // await expect(page.getByText('Dashboard')).toBeVisible()
-    await expect(page.getByText('test@gmail.com' )).toBeVisible()
-    await page.getByRole('link', {name : 'Goals'}).click()
-    await page.getByRole('button', {name : 'Add Goal'}).click()
 
-    // AUtomated by gemini
+//   await page.close
 
- 
-
-
-    //await page.getByRole('',{name:'goal_name'}).fill('TEST GOAL NAME')
-    //await page.getByRole('textbox',{name:'category'}).fill('TEST CAREGORY NAME')
-
-    
     
 
 
