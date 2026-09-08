@@ -3,15 +3,91 @@ import * as path from 'path'; // Added missing path import
 
 test('string', async ({ page, context }) => {
 
-  // Task 0 - Mouse hover
-  await page.goto('https://www.amazon.in/')
 
-  await page.getByRole('button', { name: 'Continue shopping', exact : true }).click()
-   await page.getByRole('link', { name: 'Hello, sign in' }).hover()
-   await page.getByRole('link', { name: 'Sign in', exact : true }).click()
-    await expect(page.getByText('Sign in or create account')).toBeVisible()
+// Navigate to page
+await page.goto('https://vinothqaacademy.com/iframe/');
+// Target the 3rd iframe on the page containing the Registration Form
+const registrationFrame = page.frameLocator('iframe').nth(2);
+// Fill out First Name inside the registration frame
+const firstNameInput = registrationFrame.getByRole('textbox', { name: 'First Name *' });
+await firstNameInput.fill('Playwright Learner');
+// Assert input value
+await expect(firstNameInput).toHaveValue('Playwright Learner');
+const lastNameInput = registrationFrame.getByRole('textbox', { name: 'Last Name *' })
+await lastNameInput.fill('TEST END');
+await expect(lastNameInput).toHaveValue('TEST END')
 
-    //
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//   // Task 0 - Mouse hover
+//   await page.goto('https://www.amazon.in/')
+
+//   await page.getByRole('button', { name: 'Continue shopping', exact : true }).click()
+//    await page.getByRole('link', { name: 'Hello, sign in' }).hover()
+//    await page.getByRole('link', { name: 'Sign in', exact : true }).click()
+//     await expect(page.getByText('Sign in or create account')).toBeVisible()
+
+//
+
+  //  await page.getByText('Sign in or create account').dblclick()
+ //   await page.getByText('Sign in or create account').click({button : 'right'})
+
+
+//      // Task 1 - Basic Click n Fill
+//     await page.goto('https://web-six-beta-34.vercel.app/login')
+//     await page.getByRole('textbox', { name: 'email' }).fill('test@gmail.com')
+//     await page.getByRole('textbox', { name: 'password' }).fill('passpass')
+//     await page.getByRole('button', { name: 'Log in' }).click()
+//     await expect(page.getByText('test@gmail.com')).toBeVisible()
+
+//  //  Define source card locator
+
+//  const dataAndPrivacyButton = page.getByRole('link', { name: 'Data & Privacy' });
+
+// if (await dataAndPrivacyButton.isVisible()) {
+//   await dataAndPrivacyButton.click();
+// } else {
+//   await page.getByRole('button', { name: 'Settings' }).click();
+//   await page.getByRole('link', { name: 'Data & Privacy' }).click();
+// }
+
+// const deleteAccountCard = page.locator('div').filter({
+//   has: page.getByRole('heading', { name: 'Delete account' }),
+// });
+
+// await deleteAccountCard.getByText('in', { exact: true }).click();
+// await deleteAccountCard.getByText('it', { exact: true }).click();
+// await deleteAccountCard.getByText('in', { exact: true }).click();
+// await deleteAccountCard.getByText('it', { exact: true }).click();
+
+ 
+// const sourceCard = page.locator('div[draggable="true"]', { hasText: 'Design mockups' });
+// const inProgressColumn = page.getByText('In Progress').locator('xpath=ancestor::div[contains(@class, "rounded")]').first();
+// await sourceCard.dragTo(inProgressColumn);
+// await expect(inProgressColumn).toContainText('2');
+
+
 
 
 

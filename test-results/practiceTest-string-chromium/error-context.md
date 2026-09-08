@@ -1,0 +1,444 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: practiceTest.spec.ts >> string
+- Location: tests\practiceTest.spec.ts:4:5
+
+# Error details
+
+```
+Test timeout of 30000ms exceeded.
+```
+
+# Page snapshot
+
+```yaml
+- generic [active] [ref=f4e1]:
+  - text: 
+  - generic [ref=f4e2]:
+    - generic [ref=f4e3]:
+      - generic [ref=f4e6]:
+        - list [ref=f4e9]:
+          - listitem [ref=f4e10]:
+            - link "" [ref=f4e11] [cursor=pointer]:
+              - /url: https://www.linkedin.com/in/vinothrk/
+          - listitem [ref=f4e13]:
+            - link "" [ref=f4e14] [cursor=pointer]:
+              - /url: https://wa.me/447459919437
+          - listitem [ref=f4e16]:
+            - link "" [ref=f4e17] [cursor=pointer]:
+              - /url: https://www.youtube.com/@vinothqaacademy
+          - listitem [ref=f4e19]:
+            - link "" [ref=f4e20] [cursor=pointer]:
+              - /url: https://www.instagram.com/vtechsolutionsuk/
+        - list [ref=f4e23]:
+          - listitem [ref=f4e24]:
+            - generic [ref=f4e25]: 
+            - text: "+44-7459919437 (UK- WhatsApp & Direct Call) | +91-6383544892 (India - WhatsApp Only) | Email Id : vinothtechsolutions@gmail.com"
+      - generic [ref=f4e28]:
+        - link [ref=f4e31] [cursor=pointer]:
+          - /url: https://vinothqaacademy.com/
+          - img "Vinoth Tech Solutions" [ref=f4e32]
+        - text:    
+        - list [ref=f4e36]:
+          - listitem [ref=f4e37]:
+            - link "Home" [ref=f4e38] [cursor=pointer]:
+              - /url: https://vinothqaacademy.com/
+          - listitem [ref=f4e39]:
+            - link "Tutorials" [ref=f4e40] [cursor=pointer]:
+              - /url: https://vinothqaacademy.com/tutorials/
+          - listitem [ref=f4e41]:
+            - generic [ref=f4e42]: Free Complete QA Video Courses
+          - listitem [ref=f4e43]:
+            - generic [ref=f4e44]: About Me
+          - listitem [ref=f4e45]:
+            - generic [ref=f4e46]: Demo Sites
+    - generic [ref=f4e56]:
+      - iframe [ref=f4e57]:
+        - generic [ref=f5e1]:
+          - text: 
+          - generic [ref=f5e2]:
+            - generic [ref=f5e3]:
+              - generic [ref=f5e6]:
+                - list [ref=f5e9]:
+                  - listitem [ref=f5e10]:
+                    - link "" [ref=f5e11] [cursor=pointer]:
+                      - /url: https://www.linkedin.com/in/vinothrk/
+                  - listitem [ref=f5e13]:
+                    - link "" [ref=f5e14] [cursor=pointer]:
+                      - /url: https://wa.me/447459919437
+                  - listitem [ref=f5e16]:
+                    - link "" [ref=f5e17] [cursor=pointer]:
+                      - /url: https://www.youtube.com/@vinothqaacademy
+                  - text: 
+                - list [ref=f5e20]:
+                  - listitem [ref=f5e21]:
+                    - generic [ref=f5e22]: 
+                    - text: "+44-7459919437 (UK- WhatsApp & Direct Call) | +91-6383544892 (India - WhatsApp Only) | Email Id : vinothtechsolutions@gmail.com"
+              - generic [ref=f5e25]:
+                - generic [ref=f5e26]:
+                  - link [ref=f5e28] [cursor=pointer]:
+                    - /url: https://vinothqaacademy.com/
+                    - img "Vinoth Tech Solutions" [ref=f5e29]
+                  - button "Toggle navigation" [ref=f5e30] [cursor=pointer]
+                - generic [ref=f5e35]:    — — — — — — — — — — — — 
+                - text: 
+            - generic [ref=f5e45]:
+              - heading "Project Details" [level=2] [ref=f5e47]
+              - table [ref=f5e48]:
+                - rowgroup [ref=f5e49]:
+                  - row [ref=f5e50]:
+                    - cell [ref=f5e51]:
+                      - textbox "Name" [ref=f5e52]
+                    - cell [ref=f5e53]:
+                      - textbox "Role" [ref=f5e54]
+                    - cell [ref=f5e55]:
+                      - textbox "Email Address" [ref=f5e56]
+                    - cell [ref=f5e57]:
+                      - textbox "Location" [ref=f5e58]
+                    - cell [ref=f5e59]:
+                      - textbox "Department" [ref=f5e60]
+              - button "Add Row" [ref=f5e61] [cursor=pointer]
+              - button "Delete Selected Rows" [ref=f5e62] [cursor=pointer]
+              - table [ref=f5e63]:
+                - rowgroup [ref=f5e64]:
+                  - row [ref=f5e65]:
+                    - columnheader "Select" [ref=f5e66]
+                    - columnheader "Name" [ref=f5e67]
+                    - columnheader "Role" [ref=f5e68]
+                    - columnheader "Email Address" [ref=f5e69]
+                    - columnheader "Location" [ref=f5e70]
+                    - columnheader "Department" [ref=f5e71]
+                - rowgroup [ref=f5e72]:
+                  - row [ref=f5e73]:
+                    - cell [ref=f5e74]:
+                      - checkbox [ref=f5e75]
+                    - cell "John Doe" [ref=f5e76]
+                    - cell "Project Manager" [ref=f5e77]
+                    - cell "john.doe@example.com" [ref=f5e78]
+                    - cell "New York" [ref=f5e79]
+                    - cell "Management" [ref=f5e80]
+                  - row [ref=f5e81]:
+                    - cell [ref=f5e82]:
+                      - checkbox [ref=f5e83]
+                    - cell "Jane Smith" [ref=f5e84]
+                    - cell "Software Engineer" [ref=f5e85]
+                    - cell "jane.smith@example.com" [ref=f5e86]
+                    - cell "Manchester" [ref=f5e87]
+                    - cell "Engineering" [ref=f5e88]
+                  - row [ref=f5e89]:
+                    - cell [ref=f5e90]:
+                      - checkbox [ref=f5e91]
+                    - cell "Vinoth R" [ref=f5e92]
+                    - cell "Automation Architect" [ref=f5e93]
+                    - cell "vinoth.r@example.com" [ref=f5e94]
+                    - cell "Chennai" [ref=f5e95]
+                    - cell "Quality Assurance" [ref=f5e96]
+                  - row [ref=f5e97]:
+                    - cell [ref=f5e98]:
+                      - checkbox [ref=f5e99]
+                    - cell "Samuel Johnson" [ref=f5e100]
+                    - cell "UI/UX Designer" [ref=f5e101]
+                    - cell "samuel.johnson@example.com" [ref=f5e102]
+                    - cell "London" [ref=f5e103]
+                    - cell "Design" [ref=f5e104]
+                  - row [ref=f5e105]:
+                    - cell [ref=f5e106]:
+                      - checkbox [ref=f5e107]
+                    - cell "Linda Wilson" [ref=f5e108]
+                    - cell "Business Analyst" [ref=f5e109]
+                    - cell "linda.wilson@example.com" [ref=f5e110]
+                    - cell "Chicago" [ref=f5e111]
+                    - cell "Analysis" [ref=f5e112]
+                  - row [ref=f5e113]:
+                    - cell [ref=f5e114]:
+                      - checkbox [ref=f5e115]
+                    - cell "David Martinez" [ref=f5e116]
+                    - cell "Scrum Master" [ref=f5e117]
+                    - cell "david.martinez@example.com" [ref=f5e118]
+                    - cell "Miami" [ref=f5e119]
+                    - cell "Agile" [ref=f5e120]
+                  - row [ref=f5e121]:
+                    - cell [ref=f5e122]:
+                      - checkbox [ref=f5e123]
+                    - cell "Sarah Lee" [ref=f5e124]
+                    - cell "Database Administrator" [ref=f5e125]
+                    - cell "sarah.lee@example.com" [ref=f5e126]
+                    - cell "Boston" [ref=f5e127]
+                    - cell "Database" [ref=f5e128]
+                  - row [ref=f5e129]:
+                    - cell [ref=f5e130]:
+                      - checkbox [ref=f5e131]
+                    - cell "Anand Jeff" [ref=f5e132]
+                    - cell "DevOps Engineer" [ref=f5e133]
+                    - cell "anand@example.com" [ref=f5e134]
+                    - cell "Toronto" [ref=f5e135]
+                    - cell "Operations" [ref=f5e136]
+                  - row [ref=f5e137]:
+                    - cell [ref=f5e138]:
+                      - checkbox [ref=f5e139]
+                    - cell "Chris Evans" [ref=f5e140]
+                    - cell "Technical Lead" [ref=f5e141]
+                    - cell "chris.evans@example.com" [ref=f5e142]
+                    - cell "Austin" [ref=f5e143]
+                    - cell "Technical" [ref=f5e144]
+                  - row [ref=f5e145]:
+                    - cell [ref=f5e146]:
+                      - checkbox [ref=f5e147]
+                    - cell "Jessica Taylor" [ref=f5e148]
+                    - cell "Product Owner" [ref=f5e149]
+                    - cell "jessica.taylor@example.com" [ref=f5e150]
+                    - cell "Seattle" [ref=f5e151]
+                    - cell "Product" [ref=f5e152]
+          - contentinfo [ref=f5e153]:
+            - generic [ref=f5e157]:
+              - generic [ref=f5e158]: "© 2025 V-Tech Solutions Ltd (UK), Reg. No: 16489105"
+              - list [ref=f5e166]:
+                - listitem [ref=f5e167]:
+                  - link "" [ref=f5e168] [cursor=pointer]:
+                    - /url: https://www.linkedin.com/in/vinothrk/
+                - listitem [ref=f5e170]:
+                  - link "" [ref=f5e171] [cursor=pointer]:
+                    - /url: https://wa.me/447459919437
+                - listitem [ref=f5e173]:
+                  - link "" [ref=f5e174] [cursor=pointer]:
+                    - /url: https://www.youtube.com/@vinothqaacademy
+                - listitem [ref=f5e176]:
+                  - link "" [ref=f5e177] [cursor=pointer]:
+                    - /url: https://www.instagram.com/vtechsolutionsuk/
+          - generic [ref=f5e179]: mobile
+      - iframe [ref=f4e58]:
+        - generic [ref=f6e1]:
+          - text: 
+          - generic [ref=f6e2]:
+            - generic [ref=f6e3]:
+              - generic [ref=f6e6]:
+                - list [ref=f6e9]:
+                  - listitem [ref=f6e10]:
+                    - link "" [ref=f6e11] [cursor=pointer]:
+                      - /url: https://www.linkedin.com/in/vinothrk/
+                  - listitem [ref=f6e13]:
+                    - link "" [ref=f6e14] [cursor=pointer]:
+                      - /url: https://wa.me/447459919437
+                  - listitem [ref=f6e16]:
+                    - link "" [ref=f6e17] [cursor=pointer]:
+                      - /url: https://www.youtube.com/@vinothqaacademy
+                  - text: 
+                - list [ref=f6e20]:
+                  - listitem [ref=f6e21]:
+                    - generic [ref=f6e22]: 
+                    - text: "+44-7459919437 (UK- WhatsApp & Direct Call) | +91-6383544892 (India - WhatsApp Only) | Email Id : vinothtechsolutions@gmail.com"
+              - generic [ref=f6e25]:
+                - generic [ref=f6e26]:
+                  - link [ref=f6e28] [cursor=pointer]:
+                    - /url: https://vinothqaacademy.com/
+                    - img "Vinoth Tech Solutions" [ref=f6e29]
+                  - button "Toggle navigation" [ref=f6e30] [cursor=pointer]
+                - generic [ref=f6e35]:    — — — — — — — — — — — — 
+                - text: 
+            - generic [ref=f6e39]:
+              - heading "Alert and PopUp" [level=2] [ref=f6e52]
+              - generic [ref=f6e62]:
+                - generic [ref=f6e66]:
+                  - button "Alert Box" [ref=f6e68] [cursor=pointer]
+                  - paragraph
+                - generic [ref=f6e72]:
+                  - button "Confirm Alert Box" [ref=f6e74] [cursor=pointer]
+                  - paragraph
+                - generic [ref=f6e78]:
+                  - button "Prompt Alert Box" [ref=f6e80] [cursor=pointer]
+                  - paragraph
+          - contentinfo [ref=f6e81]:
+            - generic [ref=f6e85]:
+              - generic [ref=f6e86]: "© 2025 V-Tech Solutions Ltd (UK), Reg. No: 16489105"
+              - list [ref=f6e94]:
+                - listitem [ref=f6e95]:
+                  - link "" [ref=f6e96] [cursor=pointer]:
+                    - /url: https://www.linkedin.com/in/vinothrk/
+                - listitem [ref=f6e98]:
+                  - link "" [ref=f6e99] [cursor=pointer]:
+                    - /url: https://wa.me/447459919437
+                - listitem [ref=f6e101]:
+                  - link "" [ref=f6e102] [cursor=pointer]:
+                    - /url: https://www.youtube.com/@vinothqaacademy
+                - listitem [ref=f6e104]:
+                  - link "" [ref=f6e105] [cursor=pointer]:
+                    - /url: https://www.instagram.com/vtechsolutionsuk/
+          - generic [ref=f6e107]: mobile
+      - iframe [ref=f4e59]:
+        - generic [ref=f7e1]:
+          - text: 
+          - generic [ref=f7e2]:
+            - generic [ref=f7e3]:
+              - generic [ref=f7e6]:
+                - list [ref=f7e9]:
+                  - listitem [ref=f7e10]:
+                    - link "" [ref=f7e11] [cursor=pointer]:
+                      - /url: https://www.linkedin.com/in/vinothrk/
+                  - listitem [ref=f7e13]:
+                    - link "" [ref=f7e14] [cursor=pointer]:
+                      - /url: https://wa.me/447459919437
+                  - listitem [ref=f7e16]:
+                    - link "" [ref=f7e17] [cursor=pointer]:
+                      - /url: https://www.youtube.com/@vinothqaacademy
+                  - text: 
+                - list [ref=f7e20]:
+                  - listitem [ref=f7e21]:
+                    - generic [ref=f7e22]: 
+                    - text: "+44-7459919437 (UK- WhatsApp & Direct Call) | +91-6383544892 (India - WhatsApp Only) | Email Id : vinothtechsolutions@gmail.com"
+              - generic [ref=f7e25]:
+                - generic [ref=f7e26]:
+                  - link [ref=f7e28] [cursor=pointer]:
+                    - /url: https://vinothqaacademy.com/
+                    - img "Vinoth Tech Solutions" [ref=f7e29]
+                  - button "Toggle navigation" [ref=f7e30] [cursor=pointer]
+                - generic [ref=f7e35]:    — — — — — — — — — — — — 
+                - text: 
+            - generic [ref=f7e41]:
+              - generic [ref=f7e48]:
+                - group [ref=f7e49]:
+                  - heading "Registration Form" [level=3] [ref=f7e51]
+                  - list [ref=f7e52]:
+                    - listitem [ref=f7e53]:
+                      - generic [ref=f7e54]: First Name *
+                      - textbox "First Name *" [ref=f7e55]
+                    - listitem [ref=f7e56]:
+                      - generic [ref=f7e57]: Last Name *
+                      - textbox "Last Name *" [ref=f7e58]
+                    - listitem [ref=f7e59]:
+                      - generic [ref=f7e60]: Gender *
+                      - generic [ref=f7e61]:
+                        - generic [ref=f7e62]:
+                          - radio "Male" [ref=f7e63]
+                          - generic [ref=f7e64]: Male
+                        - generic [ref=f7e65]:
+                          - radio "Female" [ref=f7e66]
+                          - generic [ref=f7e67]: Female
+                        - generic [ref=f7e68]:
+                          - radio "Other" [ref=f7e69]
+                          - generic [ref=f7e70]: Other
+                    - listitem [ref=f7e71]:
+                      - generic [ref=f7e72]: Course Interested
+                      - generic [ref=f7e73]:
+                        - generic [ref=f7e74]:
+                          - checkbox "Selenium WebDriver" [ref=f7e75]
+                          - generic [ref=f7e76]: Selenium WebDriver
+                        - generic [ref=f7e77]:
+                          - checkbox "Java" [ref=f7e78]
+                          - generic [ref=f7e79]: Java
+                        - generic [ref=f7e80]:
+                          - checkbox "TestNG" [ref=f7e81]
+                          - generic [ref=f7e82]: TestNG
+                        - generic [ref=f7e83]:
+                          - checkbox "DevOps" [checked] [ref=f7e84]
+                          - generic [ref=f7e85]: DevOps
+                        - generic [ref=f7e86]:
+                          - checkbox "Functional Testing" [ref=f7e87]
+                          - generic [ref=f7e88]: Functional Testing
+                        - generic [ref=f7e89]:
+                          - checkbox "Others" [ref=f7e90]
+                          - generic [ref=f7e91]: Others
+                    - listitem [ref=f7e92]:
+                      - generic [ref=f7e93]: Address
+                      - generic [ref=f7e94]:
+                        - generic [ref=f7e95]: (Fields names are mentioned below the text box)
+                        - generic [ref=f7e97]:
+                          - textbox "Street Address" [ref=f7e98]
+                          - generic [ref=f7e99]: Street Address
+                        - generic [ref=f7e100]:
+                          - textbox "Apt, Suite, Bldg. (optional)" [ref=f7e101]
+                          - generic [ref=f7e102]: Apt, Suite, Bldg. (optional)
+                        - generic [ref=f7e103]:
+                          - textbox "City" [ref=f7e104]
+                          - generic [ref=f7e105]: City
+                        - generic [ref=f7e106]:
+                          - textbox "State / Province / Region" [ref=f7e107]
+                          - generic [ref=f7e108]: State / Province / Region
+                        - generic [ref=f7e109]:
+                          - textbox "Postal / Zip Code" [ref=f7e110]
+                          - generic [ref=f7e111]: Postal / Zip Code
+                        - generic [ref=f7e112]:
+                          - combobox [ref=f7e113]
+                          - combobox [ref=f7e116] [cursor=pointer]:
+                            - textbox
+                          - generic [ref=f7e117]: Country
+                    - listitem [ref=f7e118]:
+                      - generic [ref=f7e119]: Email *
+                      - textbox "Email *" [ref=f7e120]
+                    - listitem [ref=f7e121]:
+                      - generic [ref=f7e122]: Date of Demo
+                      - generic [ref=f7e123]:
+                        - textbox "Date of Demo" [ref=f7e124]
+                        - generic [ref=f7e125]: Enter in MM/DD/YY Format
+                    - listitem [ref=f7e126]:
+                      - generic [ref=f7e127]: Convenient Time
+                      - generic [ref=f7e128]:
+                        - combobox [ref=f7e129]
+                        - combobox [ref=f7e132] [cursor=pointer]:
+                          - textbox "00" [ref=f7e133]
+                        - generic [ref=f7e134]: HH
+                      - generic [ref=f7e135]:
+                        - combobox [ref=f7e136]
+                        - combobox [ref=f7e139] [cursor=pointer]:
+                          - textbox "00" [ref=f7e140]
+                        - generic [ref=f7e141]: MM
+                    - listitem [ref=f7e143]:
+                      - generic [ref=f7e144]: Mobile Number
+                      - textbox "Mobile Number" [ref=f7e145]
+                    - listitem [ref=f7e146]:
+                      - generic [ref=f7e147]: Enter your query
+                      - textbox "Enter your query" [ref=f7e149]
+                - group [ref=f7e150]:
+                  - heading "Verification" [level=3] [ref=f7e152]
+                  - list [ref=f7e153]:
+                    - listitem [ref=f7e154]:
+                      - generic [ref=f7e155]: Please enter two digits as displayed in Example *
+                      - generic [ref=f7e156]:
+                        - textbox "Please enter two digits as displayed in Example *" [ref=f7e157]
+                        - generic [ref=f7e158]: "Example: 33"
+                    - listitem [ref=f7e159]:
+                      - button "Submit" [ref=f7e160] [cursor=pointer]
+              - img "Automation" [ref=f7e169]
+          - contentinfo [ref=f7e170]:
+            - generic [ref=f7e174]:
+              - generic [ref=f7e175]: "© 2025 V-Tech Solutions Ltd (UK), Reg. No: 16489105"
+              - list [ref=f7e183]:
+                - listitem [ref=f7e184]:
+                  - link "" [ref=f7e185] [cursor=pointer]:
+                    - /url: https://www.linkedin.com/in/vinothrk/
+                - listitem [ref=f7e187]:
+                  - link "" [ref=f7e188] [cursor=pointer]:
+                    - /url: https://wa.me/447459919437
+                - listitem [ref=f7e190]:
+                  - link "" [ref=f7e191] [cursor=pointer]:
+                    - /url: https://www.youtube.com/@vinothqaacademy
+                - listitem [ref=f7e193]:
+                  - link "" [ref=f7e194] [cursor=pointer]:
+                    - /url: https://www.instagram.com/vtechsolutionsuk/
+          - generic [ref=f7e196]: mobile
+  - contentinfo [ref=f4e60]:
+    - generic [ref=f4e64]:
+      - generic [ref=f4e65]: "© 2025 V-Tech Solutions Ltd (UK), Reg. No: 16489105"
+      - generic [ref=f4e69]:
+        - list [ref=f4e73]:
+          - listitem [ref=f4e74]:
+            - link "" [ref=f4e75] [cursor=pointer]:
+              - /url: https://www.linkedin.com/in/vinothrk/
+          - listitem [ref=f4e77]:
+            - link "" [ref=f4e78] [cursor=pointer]:
+              - /url: https://wa.me/447459919437
+          - listitem [ref=f4e80]:
+            - link "" [ref=f4e81] [cursor=pointer]:
+              - /url: https://www.youtube.com/@vinothqaacademy
+          - listitem [ref=f4e83]:
+            - link "" [ref=f4e84] [cursor=pointer]:
+              - /url: https://www.instagram.com/vtechsolutionsuk/
+        - generic:
+          - list
+  - generic [ref=f4e86]: desktop
+```

@@ -12,7 +12,7 @@ export default defineConfig({
     baseURL: 'https://web-six-beta-34.vercel.app/login',
     trace: 'on-first-retry',
     launchOptions: {
-      slowMo: 0, // ms to delay each action by x milli seconds
+      slowMo: 1000, // ms to delay each action by x milli seconds
     },
   },
 
@@ -20,7 +20,7 @@ export default defineConfig({
   projects: [
     /* Desktop Configurations */
     {
-      name: 'chromium-desktop',
+      name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
     },
 
