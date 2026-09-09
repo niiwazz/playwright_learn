@@ -4,18 +4,75 @@ import * as path from 'path'; // Added missing path import
 test('string', async ({ page, context }) => {
 
 
-// Navigate to page
-await page.goto('https://vinothqaacademy.com/iframe/');
-// Target the 3rd iframe on the page containing the Registration Form
-const registrationFrame = page.frameLocator('iframe').nth(2);
-// Fill out First Name inside the registration frame
-const firstNameInput = registrationFrame.getByRole('textbox', { name: 'First Name *' });
-await firstNameInput.fill('Playwright Learner');
-// Assert input value
-await expect(firstNameInput).toHaveValue('Playwright Learner');
-const lastNameInput = registrationFrame.getByRole('textbox', { name: 'Last Name *' })
-await lastNameInput.fill('TEST END');
-await expect(lastNameInput).toHaveValue('TEST END')
+  //File Upload & download
+
+   await page.goto('https://web-six-beta-34.vercel.app/login')
+    await page.getByRole('textbox', { name: 'email' }).fill('test@gmail.com')
+    await page.getByRole('textbox', { name: 'password' }).fill('passpass')
+    await page.getByRole('button', { name: 'Log in' }).click()
+    await expect(page.getByText('test@gmail.com')).toBeVisible()
+
+    await page.getByRole("link", { name: "Transactions", exact: true }).click()
+    await page.getByRole("button", { name: "Import CSV", exact: true }).click()
+
+    const fileChooserPromise = page.waitForEvent('filechooser');
+    await page.getByText("Click to choose a CSV file", { exact: true }).click()
+    const fileChooser = await fileChooserPromise;
+    const filePath = path.join(
+  'D:',
+  'Temp - Sumit',
+  'Signature request',
+  'Parking_MOU_TestWorkbook_V3.0 - Copy.xlsx'
+);
+
+    await fileChooser.setFiles(filePath);
+
+   await page.getByRole("button", { name: "Close", exact: true }).click()
+
+
+    // Test to download 
+const downloadPromise = page.waitForEvent('download');
+
+  await page.getByRole('button', { name: 'Download Template', exact: true }).click();
+
+  const download = await downloadPromise;
+
+  // Option A: Save explicitly to C:\Users\<Username>\Downloads
+  const userDownloadsFolder = path.join(process.env.USERPROFILE || '', 'Downloads');
+  const targetSavePath = path.join(userDownloadsFolder, download.suggestedFilename());
+
+  await download.saveAs(targetSavePath);
+  expect(download.suggestedFilename()).toBeTruthy();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//   // Navigate to page
+// await page.goto('https://vinothqaacademy.com/iframe/');
+// // Target the 3rd iframe on the page containing the Registration Form
+// const registrationFrame = page.frameLocator('iframe').nth(2);
+// // Fill out First Name inside the registration frame
+// const firstNameInput = registrationFrame.getByRole('textbox', { name: 'First Name *' });
+// await firstNameInput.fill('Playwright Learner');
+// // Assert input value
+// await expect(firstNameInput).toHaveValue('Playwright Learner');
+// const lastNameInput = registrationFrame.getByRole('textbox', { name: 'Last Name *' })
+// await lastNameInput.fill('TEST END');
+// await expect(lastNameInput).toHaveValue('TEST END')
 
 
 
