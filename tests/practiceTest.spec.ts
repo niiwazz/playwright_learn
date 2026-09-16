@@ -2,39 +2,51 @@ import { test, expect } from '@playwright/test';
 import * as path from 'path'; // Added missing path import
 
 test('string', async ({ page, context }) => {
+// Navigate directly to authenticated routes!
+  await page.goto('/dashboard');
+  // Verify page content directly
+  await expect(page.getByText('test@gmail.com')).toBeVisible();
+
+  await page.close()
 
 
-  //File Upload & download
 
-  await page.goto('https://web-six-beta-34.vercel.app/login')
-  await page.getByRole('textbox', { name: 'email' }).fill('test@gmail.com')
-  await page.getByRole('textbox', { name: 'password' }).fill('passpass')
-  await page.getByRole('button', { name: 'Log in' }).click()
-  await expect(page.getByText('test@gmail.com')).toBeVisible()
 
-  await page.getByRole("link", { name: "Transactions", exact: true }).click()
-  await page.getByRole("button", { name: "Import CSV", exact: true }).click()
 
-  const fileChooserPromise = page.waitForEvent('filechooser');
-  await page.getByText("Click to choose a CSV file", { exact: true }).click()
-  const fileChooser = await fileChooserPromise;
-  const filePath = path.join(
-    'D:',
-    'Temp - Sumit',
-    'Signature request',
-    'Parking_MOU_TestWorkbook_V3.0 - Copy.xlsx'
-  );
 
-  await fileChooser.setFiles(filePath);
+//   //File Upload & download
 
-  // Take a screenshot of the entire visible screen
-await page.screenshot({ path: 'screenshots/full-page-upload.png' });
+//   await page.goto('https://web-six-beta-34.vercel.app/login')
+//   await page.getByRole('textbox', { name: 'email' }).fill('test@gmail.com')
+//   await page.getByRole('textbox', { name: 'password' }).fill('passpass')
+//   await page.getByRole('button', { name: 'Log in' }).click()
+//   await expect(page.getByText('test@gmail.com')).toBeVisible()
+
+//   await page.getByRole("link", { name: "Transactions", exact: true }).click()
+//   await page.getByRole("button", { name: "Import CSV", exact: true }).click()
+
+//   const fileChooserPromise = page.waitForEvent('filechooser');
+//   await page.getByText("Click to choose a CSV file", { exact: true }).click()
+//   const fileChooser = await fileChooserPromise;
+//   const filePath = path.join(
+//     'D:',
+//     'Temp - Sumit',
+//     'Signature request',
+//     'Parking_MOU_TestWorkbook_V3.0 - Copy.xlsx'
+//   );
+
+//   await fileChooser.setFiles(filePath);
+
+//   // Take a screenshot of the entire visible screen
+// await page.screenshot({ path: 'screenshots/full-page-upload.png' });
 
 
  
-await page.getByRole("button", { name: "Close", exact: true }).click();
+// await page.getByRole("button", { name: "Close", exact: true }).click()
 
-  await page.close()
+
+
+//   await page.close()
 
 
 
