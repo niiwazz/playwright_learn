@@ -1,4 +1,4 @@
-import { test, expect } from '../fixtures/pageFixtures';
+import { test, expect } from '../../fixtures/pageFixtures';
 
 test('successful login using custom fixtures', async ({ loginPage }) => {
   await loginPage.goto();

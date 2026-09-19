@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test.skip('Verify UI renders empty state when API returns no transactions', async ({ page }) => {
+test('Verify UI renders empty state when API returns no transactions', async ({ page }) => {
   // Target the Supabase transactions endpoint shown in Network tab
   await page.route('**/transactions?select=*', async (route) => {
     await route.fulfill({
@@ -8,4 +8,11 @@ test.skip('Verify UI renders empty state when API returns no transactions', asyn
       contentType: 'application/json',
       body: JSON.stringify([]), // Return empty array
     });
-})})
+  });
+
+  await page.goto('/transactions');
+
+  // Verify that zero data rows appear in the UI
+  const tableRows = page.locator('table tbody tr');
+  await expect(tableRows).toHaveCount(0);
+});

@@ -1,6 +1,6 @@
-import { test, expect } from '../fixtures/pageFixtures';
-import { TEST_USER } from '../data/userCredentials';
-import { generateGoalPayload } from '../data/dynamicFactories';
+import { test, expect } from '../../fixtures/pageFixtures';
+import { TEST_USER } from '../../data/userCredentials';
+import { generateGoalPayload } from '../../data/dynamicFactories';
 
 test('Verify created goal can be edited and deleted successfully', async ({
   loginPage,

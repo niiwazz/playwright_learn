@@ -8,7 +8,7 @@ const authFile = path.join(__dirname, '../.auth/user.json');
 setup('authenticate', async ({ page }) => {
   // 1. Perform UI login once
   await page.goto('https://web-six-beta-34.vercel.app/login');
-  await page.getByRole('textbox', { name: 'email' }).fill('test@gail.com');
+  await page.getByRole('textbox', { name: 'email' }).fill('test@gmail.com');
   await page.getByRole('textbox', { name: 'password' }).fill('passpass');
   await page.getByRole('button', { name: 'Log in' }).click();
 

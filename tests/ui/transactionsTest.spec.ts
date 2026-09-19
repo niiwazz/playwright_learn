@@ -1,6 +1,6 @@
-import { test, expect } from '../fixtures/pageFixtures';
-import { TEST_USER } from '../data/userCredentials';
-import { generateTransactionPayload } from '../data/dynamicFactories';
+import { test, expect } from '../../fixtures/pageFixtures';
+import { TEST_USER } from '../../data/userCredentials';
+import { generateTransactionPayload } from '../../data/dynamicFactories';
 
 test('Verify created transaction can be edited and deleted successfully', async ({
   loginPage,

@@ -1,6 +1,6 @@
-import { test, expect } from '../fixtures/pageFixtures';
-import { TEST_USER } from '../data/userCredentials';
-import { generateInvestmentPayload } from '../data/dynamicFactories';
+import { test, expect } from '../../fixtures/pageFixtures';
+import { TEST_USER } from '../../data/userCredentials';
+import { generateInvestmentPayload } from '../../data/dynamicFactories';
 
 test('Verify created investment record can be edited and deleted successfully', async ({
   loginPage,
