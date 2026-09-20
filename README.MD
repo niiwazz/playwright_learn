@@ -1,243 +1,203 @@
-Let's break down your framework's current setup 🏗️\! It helps to see how the traditional Page Object Model (POM) evolves into this modern Playwright architecture.
+# 🎭 KashMap Playwright Automation Framework
 
-In a traditional POM setup, your test file handles two jobs: **creating objects** and **executing test logic**.
+[![Playwright Tests](https://github.com/niiwazz/playwright_learn/actions/workflows/playwright.yml/badge.svg)](https://github.com/niiwazz/playwright_learn/actions)
+[![Node.js Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen.svg)](https://nodejs.org/)
+[![Playwright Version](https://img.shields.io/badge/playwright-v1.40%2B-blue.svg)](https://playwright.dev/)
+[![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=flat&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 
-Here is how your new design splits those responsibilities into three distinct layers to make your code cleaner and more scalable:
+An enterprise-grade, scalable End-to-End (E2E) testing framework designed for the **KashMap** financial management platform. Built on **Playwright** and **TypeScript**, this repository implements Page Object Model (POM), custom Page Fixtures, dynamic data factories, state-based authentication seeding, API network mocking, and CI/CD pipeline integration.
 
-### **The Architecture Breakdown 🧩**
+---
 
-| Layer | File | Role & Responsibility |
-| :---- | :---- | :---- |
-| **1\. Component Layer 🧱** | pages/loginPage.ts | **Defines elements and raw actions.** It knows *what* the selectors are (e.g., usernameInput) and *how* to interact with them (fill(), click()). It contains no test logic or assertions. |
-| **2\. Injection Layer 🔌** | fixtures/pageFixtures.ts | **Handles lifecycle and instantiation.** Instead of creating new LoginPage(page) inside your tests, this fixture automatically instantiates the class, passes the browser page to it, and injects loginPage directly into the test context. |
-| **3\. Execution Layer 🧪** | tests/loginTest.specs.ts | **Contains pure test intent.** It imports your custom fixture instead of @playwright/test. It simply requests { loginPage } in the arguments and calls high-level actions (loginPage.goto()).  |
+## 🏗️ Enterprise Architecture Diagram
 
-### 
+The diagram below illustrates the end-to-end flow from UI action execution and dynamic data generation to authentication seeding, API network mocking, and automated execution within GitHub Actions CI/CD pipelines.
 
-### **How Data & Control Flow During a Test Run 🔄**
+┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                                 Enterprise Test Architecture                                   │
+└────────────────────────────────────────────────────────────────────────────────────────────────┘
 
-When you run npx playwright test loginTest.specs.ts, here is the step-by-step sequence behind the scenes:
+┌──────────────────────────────────────────────────────────────────────────────────────────────┐
+│                                   GitHub Actions CI/CD Pipeline                              │
+│                               (Triggers on Push, PR & Schedule)                              │
+└───────────────────────────────┬──────────────────────────────────────────────────────────────┘
+│
+▼
+┌──────────────────────────────────────────────────────────────────────────────────────────────┐
+│                                Playwright Execution Engine                                   │
+│                   (Parallel Execution across Chromium, Firefox, WebKit)                      │
+└───────┬──────────────────────────────────────────────────────────────────────┬───────────────┘
+│                                                                      │
+▼                                                                      ▼
+┌─────────────────────────────────┐                            ┌────────────────────────────────┐
+│      Network Mocking Layer      │                            │    API & State Seeding Layer   │
+│  - Route Interception (page.route)│                            │  - Global Setup (auth.setup)   │
+│  - Mock API Data (mockAPITest)  │                            │  - Pre-built session state      │
+└─────────────────────────────────┘                            │    (storageState / cookies)    │
+└────────────────────────────────┘
+│
+▼
+┌───────────────────────────────────────────────────────────────────────────────────────────────┐
+│                                   Page Object Model & Fixtures                                │
+│  - Page Classes: LoginPage, TransactionsPage, GoalsPage, InvestmentsPage, SideMenuPage        │
+│  - Fixtures: pageFixtures.ts (Injects instantiated POMs directly into test scopes)             │
+│  - Dynamic Data: dynamicFactories.ts (Faker/timestamp payload generators)                     │
+└───────────────────────────────────────────────────────────────────────────────────────────────┘
+│
+▼
+┌───────────────────────────────────────────────────────────────────────────────────────────────┐
+│                                   Target Application (UI)                                     │
+│                            https://web-six-beta-34.vercel.app/                                │
+└───────────────────────────────────────────────────────────────────────────────────────────────┘
 
-1. **Test Start 🏁**: Playwright opens loginTest.specs.ts and sees that the test requests the loginPage fixture parameter.
 
-2. **Fixture Execution ⚡**: Playwright pauses the test for a millisecond, jumps into pageFixtures.ts, creates a fresh browser context/page, and runs const loginPage \= new LoginPage(page).  
-     
-3. **Yielding Control 🔑**: The fixture calls await use(loginPage), handing the ready-to-use object over to your spec file.  
-     
-4. **Action & Assertion 🎯**: Your spec file runs await loginPage.login(...) using that injected instance.  
-     
-5. **Teardown 🧹**: Once the test finishes, control returns to the fixture to automatically close resources.  
-   
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-### **Key Advantage for Interviews 💼**
+## ✨ Framework Features
 
-In traditional Selenium or Java setups, every single test file is littered with lines like:  
-LoginPage login \= new LoginPage(driver);
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-With Playwright's fixture model, object creation is completely decoupled from test execution. If you add 50 more test files, none of them ever need to instantiate a Page Object manually\!
+* **🏎️ Parallel Execution & Cross-Browser Support:** Executes tests concurrently across Chromium, Firefox, and WebKit to minimize execution time and maximize test coverage.
+* **🔐 Fast Authentication Seeding via `storageState`:** Generates and reuses authenticated user states (`auth.setup.ts`) to eliminate redundant UI login flows across test suites.
+* **💉 Custom Page Fixtures:** Extends Playwright’s `@playwright/test` (`fixtures/pageFixtures.ts`) to inject pre-instantiated Page Objects (`loginPage`, `transactionsPage`, `goalsPage`, etc.) directly into test signatures, eliminating repetitive setup code.
+* **🎲 Dynamic Test Data Generation:** Features flexible payload factory functions (`data/dynamicFactories.ts`) using runtime timestamps and overrides to ensure test isolation and data uniqueness.
+* **🌐 Network Mocking Layer:** Supports intercepting and mocking API responses (`tests/mock/mockAPITest.spec.ts`) for deterministic and isolated UI testing.
+* **🧹 Teardown & Lifecycle Hooks:** Integrated setup and cleanup spec workflows (`tests/teardown/cleanupTest.spec.ts`) to ensure clean state transitions before and after execution runs.
+* **📊 Rich HTML Reporting:** Automatically records traces, screenshots on failure, and video recordings accessible through an interactive HTML report.
 
-Does this 3-layer breakdown clarify how the pieces connect compared to standard POM? To check our setup, what happens if we add a second page class (like ExceptionsPage.ts)—which of these three layers would need to be updated to make it available in your tests?
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-To master this architecture completely, starting with the **Component Layer 🧱** is the best first step.
+## 🛠️ Repository Structure
 
-Since both the Injection Layer and Execution Layer depend directly on the classes you build in the Component Layer, understanding how your page objects are structured gives you a solid foundation for the rest of the framework.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-Here is the step-by-step path we can take to break down each line of your code:
+├── data/                       # Static test data & dynamic data generator factories
+│   ├── data.ts                 # Central data exports
+│   ├── dynamicFactories.ts     # Dynamic payload builders (Transactions, Investments, Goals)
+│   ├── goalsData.ts            # Default Goal data object definitions
+│   ├── investmentData.ts       # Default Investment data object definitions
+│   ├── transactionData.ts      # Default Transaction data object definitions
+│   └── userCredentials.ts      # Test user credential constants
+├── fixtures/
+│   └── pageFixtures.ts         # Custom Playwright test fixture extending base test with POMs
+├── pages/                      # Page Object Model (POM) class definitions
+│   ├── exceptionsPage.ts       # Specific exception handlers/locators
+│   ├── goalsPage.ts            # Locators and workflows for Goals module
+│   ├── investmentsPage.ts      # Locators and workflows for Investments module
+│   ├── loginPage.ts            # Authentication page locators and actions
+│   ├── settingsPage.ts         # Locators for user settings & theme toggling
+│   ├── sideMenuPage.ts         # Sidebar menu navigation locators
+│   └── transactionsPage.ts     # Locators and workflows for Transactions table and dialogs
+├── tests/                      # Automated Test Specs
+│   ├── mock/                   # API network mocking specs
+│   │   └── mockAPITest.spec.ts
+│   ├── setup/                  # Global authentication setup
+│   │   └── auth.setup.ts
+│   ├── teardown/               # Data cleanup and post-test specs
+│   │   └── cleanupTest.spec.ts
+│   └── ui/                     # End-to-End UI functional test specs
+│       ├── goalsTest.spec.ts
+│       ├── investmentsTest.spec.ts
+│       ├── loginTest.spec.ts
+│       ├── sideMenuTest.spec.ts
+│       └── transactionsTest.spec.ts
+├── playwright.config.ts        # Global Playwright framework configuration
+├── package.json                # Project dependencies and script runner commands
+└── tsconfig.json               # TypeScript compiler configuration
 
-1. **Component Layer (**pages/loginPage.ts**) 🧱**: We will inspect line-by-line how TypeScript classes, readonly locators, constructors, and page actions work together.  
-     
-2. **Injection Layer (**fixtures/pageFixtures.ts**) 🔌**: Next, we will examine how Playwright's test.extend() and use() inject those page objects automatically.  
-     
-3. **Execution Layer (**tests/loginTest.specs.ts**) 🧪**: Finally, we will see how the spec file consumes the injected fixtures cleanly without manual setup.  
-   
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-### **Step 1: The Component Layer (**pages/loginPage.ts**)**
+🚀 Quick Start Commands
+1. Prerequisites
+Ensure you have the following installed on your machine:
 
-Let's look at the opening lines of your loginPage.ts file:
+Node.js (v18.0.0 or higher)
+
+npm or yarn
+
+2. Installation
+Clone the repository and install dependencies along with the required Playwright browser binaries:
+
+Bash
+# Clone the repository
+git clone [https://github.com/niiwazz/playwright_learn.git](https://github.com/niiwazz/playwright_learn.git)
+cd playwright_learn
+
+# Install Node dependencies
+npm install
+
+# Install Playwright browser binaries and dependencies
+npx playwright install --with-deps
+3. Local Test Execution Commands
+Bash
+# Run all E2E tests in headless mode
+npx playwright test
+
+# Run tests in UI mode (Interactive Debugger & Time Travel)
+npx playwright test --ui
+
+# Run tests in headed mode (Visual Execution)
+npx playwright test --headed
+
+# Run tests on a specific browser (e.g., Chromium, Firefox, WebKit)
+npx playwright test --project=chromium
+
+# Run a specific spec file
+npx playwright test tests/ui/transactionsTest.spec.ts
+
+# Debug tests step-by-step
+npx playwright test --debug
+4. Running via Docker Container
+To ensure consistency across isolated environments, execute tests inside the official Playwright Docker container:
+
+Bash
+# Pull official Playwright Docker image and run tests
+docker run --rm -v $(pwd):/work -w /work [mcr.microsoft.com/playwright:v1.40.0-jammy](https://mcr.microsoft.com/playwright:v1.40.0-jammy) npx playwright test
+5. Viewing Test Reports
+Playwright automatically logs execution details, failure screenshots, traces, and videos into the playwright-report folder. Open the interactive report by running:
+
+Bash
+npx playwright show-report
+💡 Code Highlights & Implementation Best Practices
+Custom Page Fixtures (fixtures/pageFixtures.ts)
+Instead of manually instantiating page objects inside every test file, custom fixtures inject ready-to-use instances:
 
 TypeScript
+import { test as base } from '@playwright/test';
+import { LoginPage } from '../pages/loginPage';
+import { TransactionsPage } from '../pages/transactionsPage';
 
-```
+type MyFixtures = {
+  loginPage: LoginPage;
+  transactionsPage: TransactionsPage;
+};
 
-import { Page, Locator, expect } from '@playwright/test';
-
-export class LoginPage {
-  readonly page: Page;
-  readonly usernameInput: Locator;
-  readonly passwordInput: Locator;
-  readonly submitButton: Locator;
-  readonly successMessage: Locator;
-
-```
-
-Before we look at the constructor methods below these lines, what do you think the readonly keyword does here, and why is it useful to define these properties at the top of the class?
-
-—----------------------------------------------------------------------------------------------------------------------------
-
-You've got the right idea about preventing accidental changes\! 🎯
-
-The readonly modifier in TypeScript prevents a variable's reference from being reassigned after it is initialized.
-
-In the context of our Page Object:
-
-* It ensures that once usernameInput is assigned to a specific locator in the constructor, no function inside your class can accidentally reassign this.usernameInput to a completely different locator later on.  
-*   
-* It guarantees that these locator definitions remain **immutable** (unchangeable) throughout the lifecycle of that page object.  
-* 
-
-Now let's look at the next block of code in pages/loginPage.ts:
-
-TypeScript
-
-```
-
- constructor(page: Page) {
-    this.page = page;
-    this.usernameInput = page.getByRole('textbox', { name: 'username' });
-    this.passwordInput = page.getByRole('textbox', { name: 'password' });
-    this.submitButton = page.getByRole('button', { name: 'Submit' });
-    this.successMessage = page.getByText('Congratulations student. You successfully logged in!');
-  }
-
-```
-
-Why do we initialize all of our locators inside this constructor function instead of locating them directly inside the action methods (like inside login())?
-
-No worries at all\! Let's clear this up together. 💡
-
-We initialize all locators inside the constructor function for a few key reasons:
-
-* **Single Source of Truth 🎯:** If a UI element changes on the webpage (for instance, if the Submit button name changes from 'Submit' to 'Log In'), you only have to update the selector in **one single place**—inside the constructor.  
-*   
-* **Performance & Cleanliness 🧹:** By defining this.usernameInput once when the page object is created, your action methods (login(), fillData(), etc.) stay short, clean, and easy to read. They can just focus on *doing* the action (await this.usernameInput.fill(...)) rather than *finding* the element every single time.  
-*   
-* **Early Readiness 🏁:** As soon as Playwright creates an instance of LoginPage, all locators are immediately mapped and ready for any method in the class to use.  
-* 
-
-### **Moving to the Action Methods**
-
-Now let's look at the methods below the constructor in pages/loginPage.ts:
-
-TypeScript
-
-```
-
- async goto() {
-    await this.page.goto('https://practicetestautomation.com/practice-test-login/');
-  }
-
-  async login(username: string, pass: string) {
-    await this.usernameInput.fill(username);
-    await this.passwordInput.fill(pass);
-    await this.submitButton.click();
-  }
-
-```
-
-Notice how these functions use the async and await keywords. Why do automation tools like Playwright require every browser action (like .goto(), .fill(), or .click()) to be awaited
-
-can u pls explain methis ?
-
-// Extend the base test with our custom fixture  
-export const test \= base.extend\<MyFixtures\>({  
-  loginPage: async ({ page }, use) \=\> {  
-    // Set up: instantiate the page object  
-    const loginPage \= new LoginPage(page);
-
-    // Pass the fixture instance into the test  
-    await use(loginPage);  
-  },  
-  transactionsPage: async ({ page }, use) \=\> {  
-    const transactionsPage \= new TransactionsPage(page);  
-    await use(transactionsPage);  
-  },  
-  sideMenuPage: async ({ page }, use) \=\> {  
-    const sideMenuPage \= new SideMenuPage(page);  
-    await use(sideMenuPage);  
+export const test = base.extend<MyFixtures>({
+  loginPage: async ({ page }, use) => {
+    await use(new LoginPage(page));
   },
-
-  settingsPage: async ({ page }, use) \=\> {  
-    const settingsPage \= new SettingsPage(page);  
-    await use(settingsPage);  
+  transactionsPage: async ({ page }, use) => {
+    await use(new TransactionsPage(page));
   },
-
 });
 
-export { expect } from '@playwright/test';  
-—-----------------------------------------------------------------
-
-This block of code is your **Injection Layer** (fixtures/pageFixtures.ts). It uses Playwright’s **Custom Fixtures** feature to automatically manage the setup, lifecycle, and dependency injection of your Page Objects.
-
-Here is a line-by-line breakdown of how it works and why it is designed this way.
-
-### **Line-by-Line Breakdown**
-
-#### **1\.** export const test \= base.extend\<MyFixtures\>({ ... });
-
-* **What it does:** Takes Playwright's core test runner (base) and extends it with custom properties defined in your MyFixtures type interface.  
-    
-* **Why it matters:** Instead of importing test from @playwright/test in your spec files, you will import this custom test object. It informs TypeScript that your tests now have access to loginPage, transactionsPage, sideMenuPage, and settingsPage directly in the test function arguments.  
-* 
-
-#### **2\.** loginPage: async ({ page }, use) \=\> { ... }
-
-* **What it does:** Defines the setup and teardown rule for the loginPage fixture.
-
-* **The Parameters:**  
-  * { page }: Playwright's built-in fixture that provides a fresh browser page for the current test.  
-  * use: A special callback function provided by Playwright to control the fixture's lifecycle.
-
-#### **3\.** const loginPage \= new LoginPage(page);
-
-* **What it does:** Instantiates your LoginPage class, passing Playwright's active page instance into its constructor.  
-* **Why it matters:** Locators inside LoginPage are now mapped and bound to the current test's browser tab.
-
-
-#### **4\.** await use(loginPage);
-
-* **What it does:** Hands the created loginPage object over to your test file and **pauses** execution of the fixture block until your test completes.
-
-* **Lifecycle Flow:**  
-    
-  1. Everything **before** use() runs *before* your test starts (Setup).  
-  2. The test runs using the object passed inside use(...).
-
-  3. Everything **after** use() (if you add code below it) runs *after* your test finishes (Teardown/Cleanup).  
-     
-
-#### **5\.** export { expect } from '@playwright/test';
-
-* **What it does:** Re-exports Playwright’s assertion engine (expect).  
-* **Why it matters:** Allows your spec files to import both test and expect from a single file (../fixtures/pageFixtures), keeping your test imports clean.  
-* 
-
-### **The Big Picture: Why We Do This**
-
-Without this fixture setup, every single test file requires manual object creation:
+export { expect } from '@playwright/test';
+Dynamic Data Factories (data/dynamicFactories.ts)
+Avoid duplicate data conflicts during parallel execution using dynamic runtime payloads:
 
 TypeScript
+import { VALID_EXPENSE_TRANSACTION } from './transactionData';
 
-```
-
-// ❌ Traditional / Cluttered Approach
-test('Login Test', async ({ page }) => {
-  const loginPage = new LoginPage(page);
-  const sideMenuPage = new SideMenuPage(page);
-  // ... test steps
+export const generateTransactionPayload = (override = {}) => ({
+  ...VALID_EXPENSE_TRANSACTION,
+  notes: `AutoTest-${Date.now()}`,
+  ...override,
 });
 
-```
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+🤝 Contributing & Guidelines
+Follow the Page Object Model (POM) design pattern for any new screens added under pages/.
 
-With your extended fixture setup, Playwright handles instantiation lazily (it only creates objects requested in the test signature):  
-TypeScript
+Ensure new selectors utilize accessibility-first locators (getByRole, getByPlaceholder, getByText).
 
-```
-
-// ✅ Clean / Modern Fixture Approach
-test('Login Test', async ({ loginPage, sideMenuPage }) => {
-  await loginPage.goto();
-  await sideMenuPage.gotoSettingsPreferences();
-});
-
-```
-
+Add corresponding page classes into fixtures/pageFixtures.ts for clean test injections.
