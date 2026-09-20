@@ -13,49 +13,51 @@ An enterprise-grade, scalable End-to-End (E2E) testing framework designed for th
 
 The diagram below illustrates the end-to-end flow from UI action execution and dynamic data generation to authentication seeding, API network mocking, and automated execution within GitHub Actions CI/CD pipelines.
 
-┌────────────────────────────────────────────────────────────────────────────────────────────────┐
-│                                 Enterprise Test Architecture                                   │
-└────────────────────────────────────────────────────────────────────────────────────────────────┘
 
-┌──────────────────────────────────────────────────────────────────────────────────────────────┐
-│                                   GitHub Actions CI/CD Pipeline                              │
-│                               (Triggers on Push, PR & Schedule)                              │
-└───────────────────────────────┬──────────────────────────────────────────────────────────────┘
-│
-▼
-┌──────────────────────────────────────────────────────────────────────────────────────────────┐
-│                                Playwright Execution Engine                                   │
-│                   (Parallel Execution across Chromium, Firefox, WebKit)                      │
-└───────┬──────────────────────────────────────────────────────────────────────┬───────────────┘
-│                                                                      │
-▼                                                                      ▼
-┌─────────────────────────────────┐                            ┌────────────────────────────────┐
-│      Network Mocking Layer      │                            │    API & State Seeding Layer   │
-│  - Route Interception (page.route)│                            │  - Global Setup (auth.setup)   │
-│  - Mock API Data (mockAPITest)  │                            │  - Pre-built session state      │
-└─────────────────────────────────┘                            │    (storageState / cookies)    │
-└────────────────────────────────┘
-│
-▼
-┌───────────────────────────────────────────────────────────────────────────────────────────────┐
-│                                   Page Object Model & Fixtures                                │
-│  - Page Classes: LoginPage, TransactionsPage, GoalsPage, InvestmentsPage, SideMenuPage        │
-│  - Fixtures: pageFixtures.ts (Injects instantiated POMs directly into test scopes)             │
-│  - Dynamic Data: dynamicFactories.ts (Faker/timestamp payload generators)                     │
-└───────────────────────────────────────────────────────────────────────────────────────────────┘
-│
-▼
-┌───────────────────────────────────────────────────────────────────────────────────────────────┐
-│                                   Target Application (UI)                                     │
-│                            https://web-six-beta-34.vercel.app/                                │
-└───────────────────────────────────────────────────────────────────────────────────────────────┘
+```
 
++-----------------------------------------------------------------------------------------------+
+|                                  Enterprise Test Architecture                                 |
++-----------------------------------------------------------------------------------------------+
 
------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
++-----------------------------------------------------------------------------------------------+
+|                                 GitHub Actions CI/CD Pipeline                                 |
+|                             (Triggers on Push, PR & Schedule)                                 |
++-----------------------------------------------T-----------------------------------------------+
+|
+v
++-----------------------------------------------------------------------------------------------+
+|                                 Playwright Execution Engine                                   |
+|                   (Parallel Execution across Chromium, Firefox, WebKit)                       |
++-----------------------T-------------------------------------------------------T---------------+
+|                                                       |
+v                                                       v
++-----------------------------------------------+       +---------------------------------------+
+|             Network Mocking Layer             |       |       API & State Seeding Layer       |
+|  - Route Interception (page.route)            |       |  - Global Setup (auth.setup)          |
+|  - Mock API Data (mockAPITest)                |       |  - Pre-built session state            |
++-----------------------------------------------+       |    (storageState / cookies)           |
++-------------------+-------------------+
+|
+v
++-----------------------------------------------------------------------------------------------+
+|                                  Page Object Model & Fixtures                                 |
+|  - Page Classes: LoginPage, TransactionsPage, GoalsPage, InvestmentsPage, SideMenuPage        |
+|  - Fixtures: pageFixtures.ts (Injects instantiated POMs directly into test scopes)            |
+|  - Dynamic Data: dynamicFactories.ts (Faker/timestamp payload generators)                    |
++-----------------------------------------------+-----------------------------------------------+
+|
+v
++-----------------------------------------------------------------------------------------------+
+|                                  Target Application (UI)                                      |
+|                           [https://web-six-beta-34.vercel.app/]                               |
++-----------------------------------------------------------------------------------------------+
+
+```
+
+---
 
 ## ✨ Framework Features
-
------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 * **🏎️ Parallel Execution & Cross-Browser Support:** Executes tests concurrently across Chromium, Firefox, and WebKit to minimize execution time and maximize test coverage.
 * **🔐 Fast Authentication Seeding via `storageState`:** Generates and reuses authenticated user states (`auth.setup.ts`) to eliminate redundant UI login flows across test suites.
@@ -65,12 +67,11 @@ The diagram below illustrates the end-to-end flow from UI action execution and d
 * **🧹 Teardown & Lifecycle Hooks:** Integrated setup and cleanup spec workflows (`tests/teardown/cleanupTest.spec.ts`) to ensure clean state transitions before and after execution runs.
 * **📊 Rich HTML Reporting:** Automatically records traces, screenshots on failure, and video recordings accessible through an interactive HTML report.
 
------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+---
 
 ## 🛠️ Repository Structure
 
------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
+```text
 ├── data/                       # Static test data & dynamic data generator factories
 │   ├── data.ts                 # Central data exports
 │   ├── dynamicFactories.ts     # Dynamic payload builders (Transactions, Investments, Goals)
@@ -105,20 +106,24 @@ The diagram below illustrates the end-to-end flow from UI action execution and d
 ├── package.json                # Project dependencies and script runner commands
 └── tsconfig.json               # TypeScript compiler configuration
 
------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+```
 
-🚀 Quick Start Commands
-1. Prerequisites
+---
+
+## 🚀 Quick Start Commands
+
+### 1. Prerequisites
+
 Ensure you have the following installed on your machine:
 
-Node.js (v18.0.0 or higher)
+* [Node.js](https://nodejs.org/?utm_source=gemini) (v18.0.0 or higher)
+* `npm` or `yarn`
 
-npm or yarn
+### 2. Installation
 
-2. Installation
 Clone the repository and install dependencies along with the required Playwright browser binaries:
 
-Bash
+```bash
 # Clone the repository
 git clone [https://github.com/niiwazz/playwright_learn.git](https://github.com/niiwazz/playwright_learn.git)
 cd playwright_learn
@@ -128,8 +133,12 @@ npm install
 
 # Install Playwright browser binaries and dependencies
 npx playwright install --with-deps
-3. Local Test Execution Commands
-Bash
+
+```
+
+### 3. Local Test Execution Commands
+
+```bash
 # Run all E2E tests in headless mode
 npx playwright test
 
@@ -147,22 +156,37 @@ npx playwright test tests/ui/transactionsTest.spec.ts
 
 # Debug tests step-by-step
 npx playwright test --debug
-4. Running via Docker Container
+
+```
+
+### 4. Running via Docker Container
+
 To ensure consistency across isolated environments, execute tests inside the official Playwright Docker container:
 
-Bash
+```bash
 # Pull official Playwright Docker image and run tests
 docker run --rm -v $(pwd):/work -w /work [mcr.microsoft.com/playwright:v1.40.0-jammy](https://mcr.microsoft.com/playwright:v1.40.0-jammy) npx playwright test
-5. Viewing Test Reports
-Playwright automatically logs execution details, failure screenshots, traces, and videos into the playwright-report folder. Open the interactive report by running:
 
-Bash
+```
+
+### 5. Viewing Test Reports
+
+Playwright automatically logs execution details, failure screenshots, traces, and videos into the `playwright-report` folder. Open the interactive report by running:
+
+```bash
 npx playwright show-report
-💡 Code Highlights & Implementation Best Practices
-Custom Page Fixtures (fixtures/pageFixtures.ts)
+
+```
+
+---
+
+## 💡 Code Highlights & Implementation Best Practices
+
+### Custom Page Fixtures (`fixtures/pageFixtures.ts`)
+
 Instead of manually instantiating page objects inside every test file, custom fixtures inject ready-to-use instances:
 
-TypeScript
+```typescript
 import { test as base } from '@playwright/test';
 import { LoginPage } from '../pages/loginPage';
 import { TransactionsPage } from '../pages/transactionsPage';
@@ -182,10 +206,14 @@ export const test = base.extend<MyFixtures>({
 });
 
 export { expect } from '@playwright/test';
-Dynamic Data Factories (data/dynamicFactories.ts)
+
+```
+
+### Dynamic Data Factories (`data/dynamicFactories.ts`)
+
 Avoid duplicate data conflicts during parallel execution using dynamic runtime payloads:
 
-TypeScript
+```typescript
 import { VALID_EXPENSE_TRANSACTION } from './transactionData';
 
 export const generateTransactionPayload = (override = {}) => ({
@@ -194,10 +222,16 @@ export const generateTransactionPayload = (override = {}) => ({
   ...override,
 });
 
------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-🤝 Contributing & Guidelines
-Follow the Page Object Model (POM) design pattern for any new screens added under pages/.
+```
 
-Ensure new selectors utilize accessibility-first locators (getByRole, getByPlaceholder, getByText).
+---
 
-Add corresponding page classes into fixtures/pageFixtures.ts for clean test injections.
+## 🤝 Contributing & Guidelines
+
+1. Follow the **Page Object Model (POM)** design pattern for any new screens added under `pages/`.
+2. Ensure new selectors utilize accessibility-first locators (`getByRole`, `getByPlaceholder`, `getByText`).
+3. Add corresponding page classes into `fixtures/pageFixtures.ts` for clean test injections.
+
+```
+
+```
