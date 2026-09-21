@@ -1,20 +1,12 @@
 # 🎭 KashMap Playwright Automation Framework
 
-[![Playwright Tests](https://github.com/niiwazz/playwright_learn/actions/workflows/playwright.yml/badge.svg)](https://github.com/niiwazz/playwright_learn/actions)
-[![Node.js Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen.svg)](https://nodejs.org/)
-[![Playwright Version](https://img.shields.io/badge/playwright-v1.40%2B-blue.svg)](https://playwright.dev/)
-[![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=flat&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-
-An enterprise-grade, scalable End-to-End (E2E) testing framework designed for the **KashMap** financial management platform. Built on **Playwright** and **TypeScript**, this repository implements Page Object Model (POM), custom Page Fixtures, dynamic data factories, state-based authentication seeding, API network mocking, and CI/CD pipeline integration.
+An enterprise-grade, scalable End-to-End (E2E) and API testing framework designed for the **KashMap** financial management platform. Built on **Playwright** and **TypeScript**, this repository features Page Object Model (POM), custom Page Fixtures, dynamic data factories, state-based authentication seeding, network mocking, standalone API testing, and CI/CD integration.
 
 ---
 
 ## 🏗️ Enterprise Architecture Diagram
 
-The diagram below illustrates the end-to-end flow from UI action execution and dynamic data generation to authentication seeding, API network mocking, and automated execution within GitHub Actions CI/CD pipelines.
-
-
-```
+The diagram below illustrates the end-to-end architecture—from UI action execution and dynamic data generation to authentication seeding, API network mocking, and CI/CD pipeline automation.
 
 +-----------------------------------------------------------------------------------------------+
 |                                  Enterprise Test Architecture                                 |
@@ -35,95 +27,89 @@ v                                                       v
 +-----------------------------------------------+       +---------------------------------------+
 |             Network Mocking Layer             |       |       API & State Seeding Layer       |
 |  - Route Interception (page.route)            |       |  - Global Setup (auth.setup)          |
-|  - Mock API Data (mockAPITest)                |       |  - Pre-built session state            |
-+-----------------------------------------------+       |    (storageState / cookies)           |
-+-------------------+-------------------+
+|  - Mock API Data (mockAPITest)                |       |  - Direct API Specs (apiTesting)      |
+|  - Endpoint Interception                      |       |  - Session Persistence (storageState) |
++-----------------------------------------------+       +-------------------+-------------------+
 |
 v
 +-----------------------------------------------------------------------------------------------+
 |                                  Page Object Model & Fixtures                                 |
 |  - Page Classes: LoginPage, TransactionsPage, GoalsPage, InvestmentsPage, SideMenuPage        |
-|  - Fixtures: pageFixtures.ts (Injects instantiated POMs directly into test scopes)            |
-|  - Dynamic Data: dynamicFactories.ts (Faker/timestamp payload generators)                    |
+|  - Custom Fixtures: pageFixtures.ts (Injects pre-instantiated POMs into test scopes)          |
+|  - Dynamic Data: dynamicFactories.ts (Dynamic timestamp & payload generators)                 |
 +-----------------------------------------------+-----------------------------------------------+
 |
 v
 +-----------------------------------------------------------------------------------------------+
-|                                  Target Application (UI)                                      |
-|                           [https://web-six-beta-34.vercel.app/]                               |
+|                                  Target Application (UI / API)                                |
+|                           https://web-six-beta-34.vercel.app/                             |
 +-----------------------------------------------------------------------------------------------+
-
-```
 
 ---
 
 ## ✨ Framework Features
 
-* **🏎️ Parallel Execution & Cross-Browser Support:** Executes tests concurrently across Chromium, Firefox, and WebKit to minimize execution time and maximize test coverage.
-* **🔐 Fast Authentication Seeding via `storageState`:** Generates and reuses authenticated user states (`auth.setup.ts`) to eliminate redundant UI login flows across test suites.
-* **💉 Custom Page Fixtures:** Extends Playwright’s `@playwright/test` (`fixtures/pageFixtures.ts`) to inject pre-instantiated Page Objects (`loginPage`, `transactionsPage`, `goalsPage`, etc.) directly into test signatures, eliminating repetitive setup code.
-* **🎲 Dynamic Test Data Generation:** Features flexible payload factory functions (`data/dynamicFactories.ts`) using runtime timestamps and overrides to ensure test isolation and data uniqueness.
-* **🌐 Network Mocking Layer:** Supports intercepting and mocking API responses (`tests/mock/mockAPITest.spec.ts`) for deterministic and isolated UI testing.
-* **🧹 Teardown & Lifecycle Hooks:** Integrated setup and cleanup spec workflows (`tests/teardown/cleanupTest.spec.ts`) to ensure clean state transitions before and after execution runs.
-* **📊 Rich HTML Reporting:** Automatically records traces, screenshots on failure, and video recordings accessible through an interactive HTML report.
+* **🏎️ Parallel Execution & Cross-Browser Testing:** Concurrent test runs across Chromium, Firefox, and WebKit engines for reduced feedback loops.
+* **🔐 Authentication State Persistence (`storageState`):** Reusable authenticated states (`auth.setup.ts`) eliminate repetitive UI login steps across test suites.
+* **💉 Custom Page Fixtures:** Extends `@playwright/test` via `fixtures/pageFixtures.ts` to automatically inject pre-instantiated Page Objects into tests, reducing boilerplate.
+* **🎲 Dynamic Test Data Generators:** Factory helpers (`data/dynamicFactories.ts`) build isolated, non-colliding payloads at runtime using dynamic timestamps and object overrides.
+* **🌐 API Testing & Network Interception:** Includes native API validation specs (`tests/apiTesting/`) alongside UI route mocking (`tests/mock/mockAPITest.spec.ts`) for resilient testing under deterministic conditions.
+* **🧹 Teardown & Lifecycle Workflows:** Explicit setup and cleanup specs (`tests/teardown/cleanupTest.spec.ts`) maintain test database/state integrity before and after runs.
+* **📊 Comprehensive Reporting:** Generates interactive HTML reports with failure screenshots, full DOM traces, and video recordings.
 
 ---
 
 ## 🛠️ Repository Structure
 
 ```text
-├── data/                       # Static test data & dynamic data generator factories
-│   ├── data.ts                 # Central data exports
-│   ├── dynamicFactories.ts     # Dynamic payload builders (Transactions, Investments, Goals)
-│   ├── goalsData.ts            # Default Goal data object definitions
-│   ├── investmentData.ts       # Default Investment data object definitions
-│   ├── transactionData.ts      # Default Transaction data object definitions
-│   └── userCredentials.ts      # Test user credential constants
+├── data/                       # Static test datasets & dynamic factories
+│   ├── data.ts                 # Central data export definitions
+│   ├── dynamicFactories.ts     # Payload builders (Transactions, Investments, Goals)
+│   ├── goalsData.ts            # Default Goal data structures
+│   ├── investmentData.ts       # Default Investment data structures
+│   ├── transactionData.ts      # Default Transaction data structures
+│   └── userCredentials.ts      # Test environment user credentials
 ├── fixtures/
-│   └── pageFixtures.ts         # Custom Playwright test fixture extending base test with POMs
-├── pages/                      # Page Object Model (POM) class definitions
-│   ├── exceptionsPage.ts       # Specific exception handlers/locators
-│   ├── goalsPage.ts            # Locators and workflows for Goals module
-│   ├── investmentsPage.ts      # Locators and workflows for Investments module
-│   ├── loginPage.ts            # Authentication page locators and actions
-│   ├── settingsPage.ts         # Locators for user settings & theme toggling
-│   ├── sideMenuPage.ts         # Sidebar menu navigation locators
-│   └── transactionsPage.ts     # Locators and workflows for Transactions table and dialogs
+│   └── pageFixtures.ts         # Custom Playwright test fixture injecting POM instances
+├── pages/                      # Page Object Model (POM) Class Definitions
+│   ├── exceptionsPage.ts       # Locators/handlers for platform error dialogs
+│   ├── goalsPage.ts            # Locators & actions for the Goals module
+│   ├── investmentsPage.ts      # Locators & actions for the Investments module
+│   ├── loginPage.ts            # Locators & actions for User Authentication
+│   ├── settingsPage.ts         # Locators for User Preferences & Theme Toggling
+│   ├── sideMenuPage.ts         # Navigation bar & accordion locators
+│   └── transactionsPage.ts     # Locators & actions for Transactions tables & dialogs
 ├── tests/                      # Automated Test Specs
-│   ├── mock/                   # API network mocking specs
+│   ├── apiTesting/             # Native API integration test specs
+│   │   └── apiTesting.spec.ts
+│   ├── mock/                   # Route interception and mock API specs
 │   │   └── mockAPITest.spec.ts
-│   ├── setup/                  # Global authentication setup
+│   ├── setup/                  # Global auth state generation
 │   │   └── auth.setup.ts
-│   ├── teardown/               # Data cleanup and post-test specs
+│   ├── teardown/               # Environment cleanup workflows
 │   │   └── cleanupTest.spec.ts
-│   └── ui/                     # End-to-End UI functional test specs
+│   └── ui/                     # End-to-End Functional UI specs
 │       ├── goalsTest.spec.ts
 │       ├── investmentsTest.spec.ts
 │       ├── loginTest.spec.ts
 │       ├── sideMenuTest.spec.ts
 │       └── transactionsTest.spec.ts
-├── playwright.config.ts        # Global Playwright framework configuration
-├── package.json                # Project dependencies and script runner commands
-└── tsconfig.json               # TypeScript compiler configuration
+├── playwright.config.ts        # Playwright framework configuration & project matrix
+├── package.json                # Project dependencies and script commands
+└── tsconfig.json               # TypeScript configuration
 
-```
 
----
+🚀 Quick Start Commands
+1. Prerequisites
+Ensure you have the following installed locally:
 
-## 🚀 Quick Start Commands
+Node.js (v18.0.0 or higher)
 
-### 1. Prerequisites
+npm or yarn
 
-Ensure you have the following installed on your machine:
+2. Installation
+Clone the project and install all Node dependencies and Playwright browser binaries:
 
-* [Node.js](https://nodejs.org/?utm_source=gemini) (v18.0.0 or higher)
-* `npm` or `yarn`
-
-### 2. Installation
-
-Clone the repository and install dependencies along with the required Playwright browser binaries:
-
-```bash
 # Clone the repository
 git clone [https://github.com/niiwazz/playwright_learn.git](https://github.com/niiwazz/playwright_learn.git)
 cd playwright_learn
@@ -131,62 +117,45 @@ cd playwright_learn
 # Install Node dependencies
 npm install
 
-# Install Playwright browser binaries and dependencies
+# Install Playwright browsers and OS dependencies
 npx playwright install --with-deps
 
-```
-
-### 3. Local Test Execution Commands
-
-```bash
-# Run all E2E tests in headless mode
+3. Executing Tests Locally
+# Execute all tests in headless mode
 npx playwright test
 
-# Run tests in UI mode (Interactive Debugger & Time Travel)
+# Launch the interactive Playwright UI Mode
 npx playwright test --ui
 
-# Run tests in headed mode (Visual Execution)
+# Run tests with visible browser windows (Headed mode)
 npx playwright test --headed
 
-# Run tests on a specific browser (e.g., Chromium, Firefox, WebKit)
+# Run UI tests only
+npx playwright test tests/ui/
+
+# Run API test specs only
+npx playwright test tests/apiTesting/
+
+# Run tests on a specific browser
 npx playwright test --project=chromium
 
-# Run a specific spec file
-npx playwright test tests/ui/transactionsTest.spec.ts
+# Debug a specific spec file step-by-step
+npx playwright test tests/ui/transactionsTest.spec.ts --debug
 
-# Debug tests step-by-step
-npx playwright test --debug
+4. Docker Container Execution
+Run test suites inside the official Playwright Docker container for environment parity:
 
-```
-
-### 4. Running via Docker Container
-
-To ensure consistency across isolated environments, execute tests inside the official Playwright Docker container:
-
-```bash
-# Pull official Playwright Docker image and run tests
 docker run --rm -v $(pwd):/work -w /work [mcr.microsoft.com/playwright:v1.40.0-jammy](https://mcr.microsoft.com/playwright:v1.40.0-jammy) npx playwright test
 
-```
+5. Viewing Test Reports
+To open the generated HTML test report with trace visualizers, run:
 
-### 5. Viewing Test Reports
-
-Playwright automatically logs execution details, failure screenshots, traces, and videos into the `playwright-report` folder. Open the interactive report by running:
-
-```bash
 npx playwright show-report
 
-```
+💡 Code Design & Framework Implementation
+Custom Fixtures (fixtures/pageFixtures.ts)
+Simplifies test code by automatically instantiating Page Classes and providing them as fixtures:
 
----
-
-## 💡 Code Highlights & Implementation Best Practices
-
-### Custom Page Fixtures (`fixtures/pageFixtures.ts`)
-
-Instead of manually instantiating page objects inside every test file, custom fixtures inject ready-to-use instances:
-
-```typescript
 import { test as base } from '@playwright/test';
 import { LoginPage } from '../pages/loginPage';
 import { TransactionsPage } from '../pages/transactionsPage';
@@ -207,13 +176,9 @@ export const test = base.extend<MyFixtures>({
 
 export { expect } from '@playwright/test';
 
-```
+Dynamic Payload Generation (data/dynamicFactories.ts)
+Generates unique payloads with runtime timestamps to prevent duplicate key errors during concurrent test execution:
 
-### Dynamic Data Factories (`data/dynamicFactories.ts`)
-
-Avoid duplicate data conflicts during parallel execution using dynamic runtime payloads:
-
-```typescript
 import { VALID_EXPENSE_TRANSACTION } from './transactionData';
 
 export const generateTransactionPayload = (override = {}) => ({
@@ -222,16 +187,9 @@ export const generateTransactionPayload = (override = {}) => ({
   ...override,
 });
 
-```
+🤝 Guidelines
+POM Architecture: All new UI pages must be implemented under pages/ using accessible locators (getByRole, getByPlaceholder, getByText).
 
----
+Fixture Registration: Add newly created Page Objects to fixtures/pageFixtures.ts so they can be injected cleanly into spec files.
 
-## 🤝 Contributing & Guidelines
-
-1. Follow the **Page Object Model (POM)** design pattern for any new screens added under `pages/`.
-2. Ensure new selectors utilize accessibility-first locators (`getByRole`, `getByPlaceholder`, `getByText`).
-3. Add corresponding page classes into `fixtures/pageFixtures.ts` for clean test injections.
-
-```
-
-```
+Data Isolation: Use dynamicFactories.ts for mutating or creating entities during test runs.
