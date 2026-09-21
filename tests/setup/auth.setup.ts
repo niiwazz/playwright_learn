@@ -1,13 +1,13 @@
-// tests/auth.setup.ts
+// tests/setup/auth.setup.ts
 import { test as setup, expect } from '@playwright/test';
 import * as path from 'path';
 
-// Define the file path where the auth state will be stored
-const authFile = path.join(__dirname, '../.auth/user.json');
+// Points directly to root playwright-learn/.auth/user.json
+const authFile = path.resolve(__dirname, '../../.auth/user.json');
 
 setup('authenticate', async ({ page }) => {
-  // 1. Perform UI login once
-  await page.goto('https://web-six-beta-34.vercel.app/login');
+  // 1. Perform UI login (uses relative path since baseURL is in config)
+  await page.goto('/login');
   await page.getByRole('textbox', { name: 'email' }).fill('test@gmail.com');
   await page.getByRole('textbox', { name: 'password' }).fill('passpass');
   await page.getByRole('button', { name: 'Log in' }).click();
@@ -15,6 +15,6 @@ setup('authenticate', async ({ page }) => {
   // 2. Wait until the user is fully logged in
   await expect(page.getByText('test@gmail.com')).toBeVisible();
 
-  // 3. Save storage state (cookies & local storage) to a JSON file
+  // 3. Save storage state directly to root .auth/user.json
   await page.context().storageState({ path: authFile });
 });
